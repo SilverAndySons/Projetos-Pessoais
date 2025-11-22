@@ -26,83 +26,102 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        menCad = new javax.swing.JMenu();
+        menCadCli = new javax.swing.JMenuItem();
+        menCadPro = new javax.swing.JMenuItem();
+        menCadMat = new javax.swing.JMenuItem();
+        menCadSer = new javax.swing.JMenuItem();
+        menRel = new javax.swing.JMenu();
+        menRelCli = new javax.swing.JMenuItem();
+        menRelLuc = new javax.swing.JMenuItem();
+        menRelGas = new javax.swing.JMenuItem();
+        menRelEst = new javax.swing.JMenuItem();
+        menEst = new javax.swing.JMenu();
+        menEstAtu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lojenha");
-        setPreferredSize(new java.awt.Dimension(600, 500));
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
+        javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
+        desktop.setLayout(desktopLayout);
+        desktopLayout.setHorizontalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        desktopLayout.setVerticalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 465, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Cadastro");
+        menCad.setText("Cadastro");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem1.setText("Cliente");
-        jMenu1.add(jMenuItem1);
+        menCadCli.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menCadCli.setText("Cliente");
+        menCadCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadCliActionPerformed(evt);
+            }
+        });
+        menCad.add(menCadCli);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem2.setText("Produto");
-        jMenu1.add(jMenuItem2);
+        menCadPro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menCadPro.setText("Produto");
+        menCadPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadProActionPerformed(evt);
+            }
+        });
+        menCad.add(menCadPro);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem3.setText("Material");
-        jMenu1.add(jMenuItem3);
+        menCadMat.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menCadMat.setText("Material");
+        menCadMat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadMatActionPerformed(evt);
+            }
+        });
+        menCad.add(menCadMat);
 
-        jMenuBar1.add(jMenu1);
+        menCadSer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menCadSer.setText("Serviço");
+        menCadSer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadSerActionPerformed(evt);
+            }
+        });
+        menCad.add(menCadSer);
 
-        jMenu2.setText("Serviço");
+        jMenuBar1.add(menCad);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        jMenuItem4.setText("Papelaria");
-        jMenu2.add(jMenuItem4);
+        menRel.setText("Relatório");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem5.setText("Personalizado");
-        jMenu2.add(jMenuItem5);
+        menRelCli.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        menRelCli.setText("Clientes");
+        menRel.add(menRelCli);
 
-        jMenuBar1.add(jMenu2);
+        menRelLuc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menRelLuc.setText("Lucros");
+        menRel.add(menRelLuc);
 
-        jMenu3.setText("Relatório");
+        menRelGas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menRelGas.setText("Gastos");
+        menRel.add(menRelGas);
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem6.setText("Vendas");
-        jMenu3.add(jMenuItem6);
+        menRelEst.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menRelEst.setText("Estoque");
+        menRel.add(menRelEst);
 
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        jMenuItem7.setText("Clientes");
-        jMenu3.add(jMenuItem7);
+        jMenuBar1.add(menRel);
 
-        jMenuBar1.add(jMenu3);
+        menEst.setText("Estoque");
 
-        jMenu4.setText("Estoque");
+        menEstAtu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menEstAtu.setText("Atualizar");
+        menEst.add(menEstAtu);
 
-        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem8.setText("Atualizar");
-        jMenu4.add(jMenuItem8);
-
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menEst);
 
         setJMenuBar(jMenuBar1);
 
@@ -112,20 +131,48 @@ public class TelaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1)
-                .addContainerGap())
+                .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1)
+                .addComponent(desktop)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(616, 508));
+        setSize(new java.awt.Dimension(653, 508));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menCadCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadCliActionPerformed
+        // TODO add your handling code here:
+        TelaCliente cliente = new TelaCliente();
+        cliente.setVisible(true);
+        desktop.add(cliente);
+    }//GEN-LAST:event_menCadCliActionPerformed
+
+    private void menCadProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadProActionPerformed
+        // TODO add your handling code here:
+        TelaProduto produto = new TelaProduto();
+        produto.setVisible(true);
+        desktop.add(produto);
+    }//GEN-LAST:event_menCadProActionPerformed
+
+    private void menCadMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadMatActionPerformed
+        // TODO add your handling code here:
+        TelaMaterial material = new TelaMaterial();
+        material.setVisible(true);
+        desktop.add(material);
+    }//GEN-LAST:event_menCadMatActionPerformed
+
+    private void menCadSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadSerActionPerformed
+        // TODO add your handling code here:
+        TelaServico servico = new TelaServico();
+        servico.setVisible(true);
+        desktop.add(servico);
+    }//GEN-LAST:event_menCadSerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,19 +210,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
+    private javax.swing.JDesktopPane desktop;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenu menCad;
+    private javax.swing.JMenuItem menCadCli;
+    private javax.swing.JMenuItem menCadMat;
+    private javax.swing.JMenuItem menCadPro;
+    private javax.swing.JMenuItem menCadSer;
+    private javax.swing.JMenu menEst;
+    private javax.swing.JMenuItem menEstAtu;
+    private javax.swing.JMenu menRel;
+    private javax.swing.JMenuItem menRelCli;
+    private javax.swing.JMenuItem menRelEst;
+    private javax.swing.JMenuItem menRelGas;
+    private javax.swing.JMenuItem menRelLuc;
     // End of variables declaration//GEN-END:variables
 }
