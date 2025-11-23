@@ -3,12 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package br.com.lojenha.telas;
+import br.com.lojenha.dal.ModuloConexao;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author Anderson
  */
 public class TelaMaterial extends javax.swing.JInternalFrame {
+    
+    Connection conexao;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     /**
      * Creates new form TelaMaterial
@@ -60,6 +68,11 @@ public class TelaMaterial extends javax.swing.JInternalFrame {
         lblQtd.setText("Quantidade");
 
         btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         intQtd.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -119,6 +132,34 @@ public class TelaMaterial extends javax.swing.JInternalFrame {
     private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecoActionPerformed
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        conexao = ModuloConexao.conector();
+        String material = txtMaterial.getText();
+        txtPreco.setText(txtPreco.getText().replaceAll(",", "."));
+        double preco = Double.parseDouble(txtPreco.getText());
+        int qtd = (Integer) intQtd.getValue();
+        
+        if (material.replaceAll("\\s+", "").equals("") || qtd <= 0){
+            //System.out.println("Not Okay");
+            JOptionPane.showMessageDialog(null, "Cadastro de Material Inválido!");
+        } else {
+            String sql = "insert into material(material,preco,quantidade) value (?, ?, ?)";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, material);
+                pst.setDouble(2, preco);
+                pst.setInt(3, qtd);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso!");
+                conexao.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Falha de Conexão com o Banco de Dados!");
+            }
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

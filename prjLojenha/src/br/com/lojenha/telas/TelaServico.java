@@ -4,17 +4,27 @@
  */
 package br.com.lojenha.telas;
 
+import br.com.lojenha.dal.ModuloConexao;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Anderson
  */
 public class TelaServico extends javax.swing.JInternalFrame {
 
+    Connection conexao;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    
     /**
      * Creates new form TelaServico
      */
     public TelaServico() {
         initComponents();
+        buscarProdutos();
+        buscarClientes();
     }
 
     /**
@@ -27,31 +37,27 @@ public class TelaServico extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        tblLista = new javax.swing.JTable();
+        lblCliente = new javax.swing.JLabel();
+        cboCliente = new javax.swing.JComboBox<>();
+        lblProduto = new javax.swing.JLabel();
+        cboProduto = new javax.swing.JComboBox<>();
+        lblQtd = new javax.swing.JLabel();
+        intQtd = new javax.swing.JSpinner();
+        lblDesconto = new javax.swing.JLabel();
+        txtDesconto = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
+        btnCadastrar = new javax.swing.JButton();
+        lblTotal = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Cadastrar Serviço");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblLista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Impressão 180g",  new Integer(10), null,  new Double(9.0),  new Double(2.0)},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Produto", "Quantidade", "Serviço", "Preço", "Desconto"
@@ -72,38 +78,54 @@ public class TelaServico extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        tblLista.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblLista);
+        if (tblLista.getColumnModel().getColumnCount() > 0) {
+            tblLista.getColumnModel().getColumn(0).setResizable(false);
+            tblLista.getColumnModel().getColumn(1).setResizable(false);
+            tblLista.getColumnModel().getColumn(2).setResizable(false);
+            tblLista.getColumnModel().getColumn(3).setResizable(false);
+            tblLista.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel1.setText("Cliente");
+        lblCliente.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblCliente.setText("Cliente");
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel2.setText("Produto");
+        lblProduto.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblProduto.setText("Produto");
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel3.setText("Quantidade");
+        lblQtd.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblQtd.setText("Quantidade");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        intQtd.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel4.setText("Desconto");
+        lblDesconto.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblDesconto.setText("Desconto");
 
-        jButton1.setText("Adicionar");
+        btnAdd.setText("Adicionar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Remover");
+        btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Cadastrar");
+        btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel5.setText("Valor Total: R$ 0,00");
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblTotal.setText("Valor Total: R$ 0.00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,33 +137,33 @@ public class TelaServico extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnCadastrar)
                         .addGap(27, 27, 27)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(lblProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblQtd, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(intQtd, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(lblDesconto)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnAdd)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))))
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnRemover))))
+                    .addComponent(cboProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -149,47 +171,209 @@ public class TelaServico extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblProduto)
+                    .addComponent(cboProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCliente)
+                    .addComponent(lblDesconto)
+                    .addComponent(txtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(lblQtd)
+                    .addComponent(intQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnRemover))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jLabel5))
+                    .addComponent(btnCadastrar)
+                    .addComponent(lblTotal))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(625, 465));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        String produto = cboProduto.getSelectedItem().toString();
+        int qtd = (Integer) intQtd.getValue();
+        if (qtd <= 0){
+            JOptionPane.showMessageDialog(null, "Quantidade de Produto Inválida!");
+            return;
+        }
+        conexao = ModuloConexao.conector();
+        String servico = "";
+        txtDesconto.setText(txtDesconto.getText().replaceAll(",", "."));
+        if (txtDesconto.getText().replaceAll("\\s+", "").equals("")) {txtDesconto.setText("0.0");}
+        double desconto = Double.parseDouble(txtDesconto.getText());
+        double preco = 0.0;
+        String sql = "select * from produto where descricao=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, produto);
+            rs = pst.executeQuery();
+            rs.next();
+            servico = rs.getNString(4);
+            preco = (rs.getDouble(3)*qtd) - desconto;
+            if (preco < 0){preco = 0.0;}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblLista.getModel();
+        Object[] novaLinha = {produto, qtd, servico, preco, desconto};
+        model.addRow(novaLinha);
+        atualizarTotal();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // TODO add your handling code here:
+        int selectRow = tblLista.getSelectedRow();
+        if (selectRow != -1){
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblLista.getModel();
+            model.removeRow(selectRow);
+            atualizarTotal();
+        }else{
+            JOptionPane.showMessageDialog(null, "Nenhuma Linha Selecinonada!");
+        }
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        String sql = "select * from servico";
+        int idCli = 0;
+        int idProd = 0;
+        double desconto = 0.0;
+        int qtd = 0;
+        double preco = 0.0;
+        int numPedido = 0;
+        conexao = ModuloConexao.conector();
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()){
+                numPedido = rs.getInt(8) + 1;
+                while(rs.next()){numPedido = rs.getInt(8) + 1;}
+            } else {
+                numPedido = 1;
+            }
+            sql = "select * from cliente where nome = ?";
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, cboCliente.getSelectedItem().toString());
+            rs = pst.executeQuery();
+            rs.next();
+            idCli = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        int listaL = tblLista.getRowCount();
+        if (listaL <= 0) {
+            JOptionPane.showMessageDialog(null, "Nenhum Produto no Pedido!");
+            return;
+        }
+        for (int i = 0; i < listaL; i++){
+            sql = "select * from produto where descricao = ?";
+            try {
+                Object valorCelula = tblLista.getValueAt(i, 0);
+                pst = conexao.prepareStatement(sql);
+                String teste = valorCelula.toString();
+                pst.setString(1, valorCelula.toString());
+                rs = pst.executeQuery();
+                rs.next();
+                idProd = rs.getInt(1);
+                valorCelula = tblLista.getValueAt(i, 4);
+                desconto = Double.parseDouble(valorCelula.toString());
+                valorCelula = tblLista.getValueAt(i, 1);
+                qtd = Integer.parseInt(valorCelula.toString());
+                valorCelula = tblLista.getValueAt(i, 3);
+                preco = Double.parseDouble(valorCelula.toString());
+                sql = "insert into servico(idCliente, idProd, desconto, quantidade, preco, numPedido) value (?,?,?,?,?,?)";
+                pst = conexao.prepareStatement(sql);
+                pst.setInt(1, idCli);
+                pst.setInt(2, idProd);
+                pst.setDouble(3, desconto);
+                pst.setInt(4, qtd);
+                pst.setDouble(5, preco);
+                pst.setInt(6, numPedido);
+                pst.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
+            }
+        }
+        try {
+            txtDesconto.setText("0.0");
+            intQtd.setValue(0);
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblLista.getModel();
+            model.setRowCount(0);
+            lblTotal.setText("Valor Total R$ 0,00");
+            conexao.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void atualizarTotal(){
+        double somaTotal = 0.0;
+        for (int i = 0; i < tblLista.getRowCount(); i++){
+            Object valorCelula = tblLista.getValueAt(i, 3);
+            somaTotal += ((Number) valorCelula).doubleValue();
+        }
+        String resultado = String.format("%.2f", somaTotal);
+        lblTotal.setText("Valor total: R$ " + resultado);
+    }
+    
+    private void buscarProdutos(){
+        conexao = ModuloConexao.conector();
+        String sql = "select * from produto";
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                String descricao = rs.getNString(2);
+                cboProduto.addItem(descricao);
+            }
+            conexao.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Falha de Conexão com o Banco de Dados!");
+        }
+    }
+    
+    private void buscarClientes(){
+        conexao = ModuloConexao.conector();
+        String sql = "select * from cliente";
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()){
+                String nome = rs.getNString(2);
+                cboCliente.addItem(nome);
+            }
+            conexao.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Falha de Conexão com o Banco de Dados!");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnRemover;
+    private javax.swing.JComboBox<String> cboCliente;
+    private javax.swing.JComboBox<String> cboProduto;
+    private javax.swing.JSpinner intQtd;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblDesconto;
+    private javax.swing.JLabel lblProduto;
+    private javax.swing.JLabel lblQtd;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable tblLista;
+    private javax.swing.JTextField txtDesconto;
     // End of variables declaration//GEN-END:variables
 }

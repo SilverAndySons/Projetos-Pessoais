@@ -4,12 +4,18 @@
  */
 package br.com.lojenha.telas;
 
+import br.com.lojenha.dal.ModuloConexao;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Anderson
  */
 public class TelaProduto extends javax.swing.JInternalFrame {
-
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
     /**
      * Creates new form TelaProduto
      */
@@ -32,7 +38,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         txtPreco = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
         lblServico = new javax.swing.JLabel();
-        cboServiço = new javax.swing.JComboBox<>();
+        cboServico = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -58,11 +64,16 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         });
 
         btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         lblServico.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblServico.setText("Serviço");
 
-        cboServiço.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Papelaria", "Personalizado" }));
+        cboServico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Papelaria", "Personalizado" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,7 +98,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblServico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cboServiço, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cboServico, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,7 +115,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblServico)
-                    .addComponent(cboServiço, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(btnCadastrar)
                 .addContainerGap(36, Short.MAX_VALUE))
@@ -121,10 +132,55 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecoActionPerformed
 
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        String descricao = txtDescricao.getText();
+        txtPreco.setText(txtPreco.getText().replaceAll(",", "."));
+        double preco = Double.parseDouble(txtPreco.getText());
+        String servico = cboServico.getSelectedItem().toString();
+        
+        if (descricao.replaceAll("\\s+", "").equals("") || preco <= 0 || servico.equals("")){
+            //System.out.println("Not Okay");
+            JOptionPane.showMessageDialog(null, "Cadastro de Produto Inválido!");
+        } else if (verificarProduto(descricao)) {
+            JOptionPane.showMessageDialog(null, "Produto já Cadastrado!!");
+        } else {
+            String sql = "insert into produto(descricao,preco,servico) value (?, ?, ?)";
+            conexao = ModuloConexao.conector();
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, descricao);
+                pst.setDouble(2, preco);
+                pst.setString(3, servico);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso!");
+                conexao.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Falha de Conexão com o Banco de Dados!");
+            }
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private boolean verificarProduto(String descricao){
+        conexao = ModuloConexao.conector();
+        String sql = "select * from produto where descricao=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, descricao);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                conexao.close();
+                return true; }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JComboBox<String> cboServiço;
+    private javax.swing.JComboBox<String> cboServico;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblPreco;
     private javax.swing.JLabel lblServico;

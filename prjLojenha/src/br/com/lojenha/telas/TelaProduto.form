@@ -55,7 +55,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblServico" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="cboServiço" min="-2" pref="250" max="-2" attributes="0"/>
+                      <Component id="cboServico" min="-2" pref="250" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="57" max="32767" attributes="0"/>
@@ -78,7 +78,7 @@
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblServico" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cboServiço" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cboServico" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
@@ -114,6 +114,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblServico">
       <Properties>
@@ -121,7 +124,7 @@
         <Property name="text" type="java.lang.String" value="Servi&#xe7;o"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cboServi&#xe7;o">
+    <Component class="javax.swing.JComboBox" name="cboServico">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
